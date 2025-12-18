@@ -7,6 +7,6 @@ module com.gestorgastos.sistema_gestor_gastos {
     requires org.kordamp.ikonli.javafx;
     requires eu.hansolo.tilesfx;
 
-    opens com.gestorgastos.sistema_gestor_gastos to javafx.fxml;
+    opens com.gestorgastos.sistema_gestor_gastos.controller to javafx.fxml;
     exports com.gestorgastos.sistema_gestor_gastos;
 }
