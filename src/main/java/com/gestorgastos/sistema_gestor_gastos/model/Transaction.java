@@ -1,20 +1,20 @@
 package com.gestorgastos.sistema_gestor_gastos.model;
 
-import com.gestorgastos.sistema_gestor_gastos.service.Transactiontype;
+import com.gestorgastos.sistema_gestor_gastos.service.TransactionType;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class Transaction {
         private int id;
-        private Transactiontype type;
+        private TransactionType type;
         private BigDecimal value;
         private Category cat;
         private String desc;
         private Date date;
 
         //Constructor
-        public Transaction(int id, Transactiontype type, BigDecimal value,
+        public Transaction(int id, TransactionType type, BigDecimal value,
                            Category cat, String desc, Date date) {
             this.id = id;
             this.type = type;
@@ -36,14 +36,14 @@ public class Transaction {
         }
 
         public boolean isIncome() {
-            return type == Transactiontype.INCOME;
+            return type == TransactionType.INCOME;
         }
 
         public boolean isExpense(){
-            return type == Transactiontype.EXPENSE;
+            return type == TransactionType.EXPENSE;
         }
 
-        public void setType(Transactiontype type) {
+        public void setType(TransactionType type) {
             this.type = type;
         }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TransactionManager {
     private final List<Transaction> txList;
-    private final int nextId;
+    private int nextId;
 
     public TransactionManager() {
         this.txList = new ArrayList<>();
@@ -18,9 +18,9 @@ public class TransactionManager {
     }
 
     //Adiciona uma nova transação na lista
-    public void addTransaction(Transactiontype type, BigDecimal value, Category cat, String desc){
+    public void addTransaction(TransactionType type, BigDecimal value, Category cat, String desc){
         Date currentDate = new Date();
-        txList.addLast(new Transaction(nextId, type, value, cat, desc, currentDate));
+        txList.addLast(new Transaction(nextId++, type, value, cat, desc, currentDate));
     }
 
     //Remove uma transação da lista
@@ -47,4 +47,12 @@ public class TransactionManager {
         }
         return null;
     }
+
+    //Printa a txList para debug
+    public void printTxList(){
+        for (Transaction tx : txList){
+            System.out.println(tx.getDesc());
+        }
+    }
+
 }
