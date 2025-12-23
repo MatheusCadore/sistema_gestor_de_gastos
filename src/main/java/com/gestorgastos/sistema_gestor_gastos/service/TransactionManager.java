@@ -2,18 +2,19 @@ package com.gestorgastos.sistema_gestor_gastos.service;
 
 import com.gestorgastos.sistema_gestor_gastos.model.Category;
 import com.gestorgastos.sistema_gestor_gastos.model.Transaction;
+import com.gestorgastos.sistema_gestor_gastos.model.TransactionType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class TransactionManager {
-    private final List<Transaction> txList;
+    private final ObservableList<Transaction> txList =
+            FXCollections.observableArrayList();
     private int nextId;
 
     public TransactionManager() {
-        this.txList = new ArrayList<>();
         this.nextId = 0;
     }
 
@@ -24,9 +25,9 @@ public class TransactionManager {
     }
 
     //Remove uma transação da lista
-    public void removeTransactionById(int Id){
+    public void removeTransactionById(int id){
         for (int i = 0; i < txList.size(); i++){
-            if (txList.get(i).getId() == nextId){
+            if (txList.get(i).getId() == id){
                 txList.remove(i);
                 break;
             }
@@ -34,7 +35,7 @@ public class TransactionManager {
     }
 
     //Retorna a lista completa
-    public List<Transaction> getTxList(){
+    public ObservableList<Transaction> getTxList(){
         return txList;
     }
 

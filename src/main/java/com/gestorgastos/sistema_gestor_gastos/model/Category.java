@@ -1,7 +1,5 @@
 package com.gestorgastos.sistema_gestor_gastos.model;
 
-import com.gestorgastos.sistema_gestor_gastos.service.TransactionType;
-
 public class Category {
     private int id;
     private String name;

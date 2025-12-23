@@ -1,7 +1,5 @@
 package com.gestorgastos.sistema_gestor_gastos.model;
 
-import com.gestorgastos.sistema_gestor_gastos.service.TransactionType;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -36,11 +34,11 @@ public class Transaction {
         }
 
         public boolean isIncome() {
-            return type == TransactionType.INCOME;
+            return type == TransactionType.ENTRADA;
         }
 
         public boolean isExpense(){
-            return type == TransactionType.EXPENSE;
+            return type == TransactionType.SAIDA;
         }
 
         public void setType(TransactionType type) {
