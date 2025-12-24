@@ -16,7 +16,7 @@ public class TransactionManager {
     private final ObservableList<Transaction> txList =
             FXCollections.observableArrayList();
     private int nextId;
-    private static final String FILE_PATH = "data/transactions.txt";
+    private static final String FILE_PATH = "C:\\Users\\mathe\\Documents\\JavaProjects\\sistema_gestor_gastos\\src\\main\\java\\com\\gestorgastos\\sistema_gestor_gastos\\data\\transactions.txt";
     private final CategoryManager catManager = new CategoryManager();;
 
     public TransactionManager() {
@@ -57,6 +57,7 @@ public class TransactionManager {
     }
 
     public void saveTxList(){
+        System.out.println(">>> saveTxList() chamado");
         File file = new File(FILE_PATH);
 
         // garante que a pasta exista
@@ -86,6 +87,7 @@ public class TransactionManager {
 
     public void loadTxList(){
         File file = new File(FILE_PATH);
+        catManager.loadCategoryList();
 
         if (!file.exists()) {
             return; // nada para carregar
@@ -111,7 +113,7 @@ public class TransactionManager {
                 String description = parts[4];
                 LocalDate date = LocalDate.parse(parts[5]);
 
-                Category category = catManager.findById(categoryId);
+                Category category = catManager.findCategoryById(categoryId);
 
                 if (category == null) {
                     System.err.println("Categoria não encontrada (ID=" + categoryId + ")");

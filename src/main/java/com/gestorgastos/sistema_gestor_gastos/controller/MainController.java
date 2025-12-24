@@ -119,6 +119,7 @@ public class MainController implements Initializable {
         result.ifPresent(name ->
                 catManager.addCategory(name.trim())
         );
+        catManager.saveCategoryList();
         upDateTotals();
     }
 
@@ -155,6 +156,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         txManager.loadTxList();
+        catManager.loadCategoryList();
         configureHeader();
         configureComboBoxes();
         configureListView();
@@ -171,22 +173,17 @@ public class MainController implements Initializable {
         headerGrid.add(new Label("Categoria"), 1, 0);
         headerGrid.add(new Label("Valor"), 2, 0);
     }
-    //Inicializa e popula os ComboBoxes da tela
 
+    //Inicializa e popula os ComboBoxes da tela
     private void configureComboBoxes() {
         typeComboBox.setItems(
                 FXCollections.observableArrayList(values())
         );
 
-        catManager.addCategory("Alimentação");
-        catManager.addCategory("Lazer");
-        catManager.addCategory("Transporte");
-        catManager.addCategory("Moradia");
-        catManager.addCategory("Saúde");
         catComboBox.setItems(catManager.getCatList());
     }
-    //Configura o ListView de transações, associa a lista observável e define célula customizada
 
+    //Configura o ListView de transações, associa a lista observável e define célula customizada
     private void configureListView() {
         txListView.setItems(txManager.getTxList());
         txListView.setFixedCellSize(-1); // permite altura dinâmica
@@ -196,16 +193,16 @@ public class MainController implements Initializable {
                 (javafx.collections.ListChangeListener<Transaction>) c -> upDateTotals()
         );
     }
-    //Cria uma coluna com largura fixa
 
+    //Cria uma coluna com largura fixa
     private ColumnConstraints fixedCol(double width) {
         ColumnConstraints c = new ColumnConstraints();
         c.setMinWidth(width);
         c.setPrefWidth(width);
         return c;
     }
-    //Monta a estrutura de colunas compartilhada entre o cabeçalho e as células do ListView.
 
+    //Monta a estrutura de colunas compartilhada entre o cabeçalho e as células do ListView.
     private List<ColumnConstraints> buildColumns() {
         ColumnConstraints colDesc = fixedCol(200);
         ColumnConstraints colCat = fixedCol(120);

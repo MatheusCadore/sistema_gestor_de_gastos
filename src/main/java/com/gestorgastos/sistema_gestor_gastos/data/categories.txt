@@ -1,0 +1,6 @@
+1;Alimentação
+2;Transporte
+3;Renda
+4;Lazer
+5;Extra
+6;Contas Fixas
