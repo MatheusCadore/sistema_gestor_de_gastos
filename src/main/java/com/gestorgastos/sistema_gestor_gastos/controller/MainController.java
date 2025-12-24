@@ -7,6 +7,7 @@ import com.gestorgastos.sistema_gestor_gastos.service.CategoryManager;
 import com.gestorgastos.sistema_gestor_gastos.service.TransactionManager;
 import com.gestorgastos.sistema_gestor_gastos.model.TransactionType;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.gestorgastos.sistema_gestor_gastos.model.TransactionType.*;
 
 public class MainController implements Initializable {
     private final TransactionManager txManager = new TransactionManager();
@@ -42,6 +45,12 @@ public class MainController implements Initializable {
     public Button addCatBtn;
     @FXML
     public Button clearListBtn;
+    @FXML
+    public Label incomeLabel;
+    @FXML
+    public Label expensesLabel;
+    @FXML
+    public Label totalLabel;
 
     @FXML
     private void addBtnClicked(ActionEvent event) {
@@ -110,6 +119,7 @@ public class MainController implements Initializable {
         result.ifPresent(name ->
                 catManager.addCategory(name.trim())
         );
+        upDateTotals();
     }
 
     @FXML
@@ -117,7 +127,26 @@ public class MainController implements Initializable {
         txManager.getTxList().clear();
     }
 
+    @FXML
     void upDateTotals(){
+        BigDecimal totalIncome = BigDecimal.ZERO;
+        BigDecimal totalExpense = BigDecimal.ZERO;
+
+        ObservableList<Transaction> list = txManager.getTxList();
+
+        for (Transaction tx : list) {
+            if (tx.isIncome()) {
+                totalIncome = totalIncome.add(tx.getValue());
+            } else if (tx.isExpense()) {
+                totalExpense = totalExpense.add(tx.getValue());
+            }
+        }
+
+        BigDecimal total = totalIncome.subtract(totalExpense);
+
+        incomeLabel.setText(totalIncome.toString());
+        expensesLabel.setText(totalExpense.toString());
+        totalLabel.setText(total.toString());
 
     }
 
@@ -125,11 +154,12 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        txManager.loadTxList();
         configureHeader();
         configureComboBoxes();
         configureListView();
+        upDateTotals();
     }
-    //Configura o cabeçalho da lista (labels acima do ListView)
 
     private void configureHeader() {
         headerGrid.getColumnConstraints().addAll(buildColumns());
@@ -145,7 +175,7 @@ public class MainController implements Initializable {
 
     private void configureComboBoxes() {
         typeComboBox.setItems(
-                FXCollections.observableArrayList(TransactionType.values())
+                FXCollections.observableArrayList(values())
         );
 
         catManager.addCategory("Alimentação");
@@ -160,8 +190,11 @@ public class MainController implements Initializable {
     private void configureListView() {
         txListView.setItems(txManager.getTxList());
         txListView.setFixedCellSize(-1); // permite altura dinâmica
-
         txListView.setCellFactory(listView -> new TransactionCell());
+
+        txManager.getTxList().addListener(
+                (javafx.collections.ListChangeListener<Transaction>) c -> upDateTotals()
+        );
     }
     //Cria uma coluna com largura fixa
 
@@ -201,7 +234,14 @@ public class MainController implements Initializable {
 
             if (empty || tx == null) {
                 setGraphic(null);
+                setStyle("");
                 return;
+            }
+
+            if (tx.isExpense()) {
+                setStyle("-fx-background-color: #ffcccc;"); // vermelho claro
+            } else {
+                setStyle("-fx-background-color: #ccffcc;"); // verde claro
             }
 
             Label descLabel = new Label(tx.getDesc());

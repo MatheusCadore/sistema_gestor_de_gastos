@@ -1,6 +1,7 @@
 package com.gestorgastos.sistema_gestor_gastos.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Transaction {
@@ -9,11 +10,11 @@ public class Transaction {
         private BigDecimal value;
         private Category cat;
         private String desc;
-        private Date date;
+        private LocalDate date;
 
         //Constructor
         public Transaction(int id, TransactionType type, BigDecimal value,
-                           Category cat, String desc, Date date) {
+                           Category cat, String desc, LocalDate date) {
             this.id = id;
             this.type = type;
             this.value = value;
@@ -34,11 +35,11 @@ public class Transaction {
         }
 
         public boolean isIncome() {
-            return type == TransactionType.ENTRADA;
+            return type == TransactionType.Entrada;
         }
 
         public boolean isExpense(){
-            return type == TransactionType.SAIDA;
+            return type == TransactionType.Saida;
         }
 
         public void setType(TransactionType type) {
@@ -69,11 +70,13 @@ public class Transaction {
             this.desc = desc;
         }
 
-        public Date getDate() {
+        public LocalDate getDate() {
             return date;
         }
 
-        public void setDate(Date date) {
+        public void setDate(LocalDate date) {
             this.date = date;
         }
+
+        public TransactionType getType() { return type; }
 }

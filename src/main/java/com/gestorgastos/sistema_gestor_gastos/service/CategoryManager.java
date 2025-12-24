@@ -22,9 +22,9 @@ public class CategoryManager {
     }
 
     //Remove uma Category da lista
-    public void removeCategoryById(int Id){
+    public void removeCategoryById(int id){
         for (int i = 0; i < catList.size(); i++){
-            if (catList.get(i).getId() == nextId){
+            if (catList.get(i).getId() == id){
                 catList.remove(i);
                 break;
             }
@@ -36,4 +36,12 @@ public class CategoryManager {
         return catList;
     }
 
+    public Category findById(int id) {
+        for (Category cat : catList) {
+            if (cat.getId() == id) {
+                return cat;
+            }
+        }
+        return null;
+    }
 }
